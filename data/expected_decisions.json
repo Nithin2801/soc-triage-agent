@@ -1,0 +1,62 @@
+[
+  {
+    "alert_id": "ALT-001",
+    "expected_verdict": "Likely Benign",
+    "reason": "The encoded PowerShell activity matches the known Veeam backup pattern: approved backup server, svc-veeam account, Veeam parent process, and scheduled 02:00 backup window."
+  },
+  {
+    "alert_id": "ALT-002",
+    "expected_verdict": "Likely Benign",
+    "reason": "The activity matches the same approved Veeam backup pattern on another approved backup server."
+  },
+  {
+    "alert_id": "ALT-003",
+    "expected_verdict": "Escalate",
+    "reason": "Encoded PowerShell was launched by winword.exe on a finance workstation, which does not match the approved Veeam backup pattern."
+  },
+  {
+    "alert_id": "ALT-004",
+    "expected_verdict": "Escalate",
+    "reason": "Encoded PowerShell occurred on a critical domain controller outside the expected administrative maintenance context."
+  },
+  {
+    "alert_id": "ALT-005",
+    "expected_verdict": "Likely Benign",
+    "reason": "The port scan originated from the approved vulnerability scanner during its expected scheduled scanning activity."
+  },
+  {
+    "alert_id": "ALT-006",
+    "expected_verdict": "Escalate",
+    "reason": "A high-volume port scan originated from an unusual process on a finance workstation and does not match the approved scanner context."
+  },
+  {
+    "alert_id": "ALT-007",
+    "expected_verdict": "Investigate",
+    "reason": "The contractor account shows geographically inconsistent authentication and requires additional investigation."
+  },
+  {
+    "alert_id": "ALT-008",
+    "expected_verdict": "Investigate",
+    "reason": "Repeated failed authentication attempts against an administrator account require investigation."
+  },
+  {
+    "alert_id": "ALT-009",
+    "expected_verdict": "Likely Benign",
+    "reason": "The scheduled task was created by the approved Veeam backup service on an approved backup server during the normal backup window."
+  },
+  {
+    "alert_id": "ALT-010",
+    "expected_verdict": "Escalate",
+    "reason": "A finance workstation created a scheduled task containing an encoded PowerShell command outside the known backup-service context."
+  },
+  {
+    "alert_id": "ALT-011",
+    "expected_verdict": "Investigate",
+    "reason": "A large outbound transfer from a web server to an external destination requires investigation because the dataset provides no approved business context for the transfer."
+  },
+  {
+    "alert_id": "ALT-012",
+    "expected_verdict": "Escalate",
+    "reason": "An unusual process attempted LSASS memory access on a critical domain controller."
+  }
+]

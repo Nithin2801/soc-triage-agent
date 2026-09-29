@@ -1,0 +1,454 @@
+{
+  "total_alerts": 12,
+  "passed": 0,
+  "failed": 12,
+  "accuracy_percent": 0.0,
+  "results": [
+    {
+      "alert_id": "ALT-001",
+      "expected": "Likely Benign",
+      "candidate": {
+        "verdict": "Likely Benign",
+        "confidence": 0.92,
+        "reasoning": "The encoded PowerShell command was launched by the approved Veeam backup service (Veeam.Backup.Service.exe) using the svc\u2011veeam service account on a backup server during its scheduled backup window. The account is authorized for this asset, the activity matches the normal backup job pattern, and internal source IP (10.10.20.11) is expected. Historical hindsight memories confirm that this exact alert (ALT\u2011001) was reviewed and classified as Likely Benign because it was part of the approved backup process. No additional suspicious indicators are present in the current alert, so the activity is consistent with expected behavior.",
+        "matched_conditions": [
+          "Encoded PowerShell launched by approved Veeam backup service",
+          "Service account svc\u2011veeam authorized for asset BKP\u2011SRV\u201101",
+          "Activity occurred during scheduled backup window",
+          "Source IP is internal and expected for backup traffic",
+          "Asset role is backup_server with medium criticality",
+          "Historical memory confirms same alert classified Likely Benign"
+        ],
+        "mismatched_conditions": [],
+        "memory_evidence": [
+          "SOC analyst approved the 'Likely Benign' classification for security alert ALT-001 involving encoded PowerShell activity on asset BKP-SRV-01. | When: 2026-09-28 | Involving: SOC analyst, svc-veeam | The activity was confirmed to originate from the approved Veeam backup process during a scheduled backup window.",
+          "Security alert ALT-001 regarding Encoded PowerShell activity on asset BKP-SRV-01 was classified as Likely Benign. | When: 2026-09-28T02:00:00 | Involving: svc-veeam | The activity was confirmed as expected Veeam backup operations during an approved window."
+        ],
+        "guardrail_override": false,
+        "guardrail_reason": "Historical benign conditions match and no effective environment change invalidates the exception."
+      },
+      "final": {
+        "verdict": "Likely Benign",
+        "confidence": 0.92,
+        "reasoning": "The encoded PowerShell command was launched by the approved Veeam backup service (Veeam.Backup.Service.exe) using the svc\u2011veeam service account on a backup server during its scheduled backup window. The account is authorized for this asset, the activity matches the normal backup job pattern, and internal source IP (10.10.20.11) is expected. Historical hindsight memories confirm that this exact alert (ALT\u2011001) was reviewed and classified as Likely Benign because it was part of the approved backup process. No additional suspicious indicators are present in the current alert, so the activity is consistent with expected behavior.",
+        "matched_conditions": [
+          "Encoded PowerShell launched by approved Veeam backup service",
+          "Service account svc\u2011veeam authorized for asset BKP\u2011SRV\u201101",
+          "Activity occurred during scheduled backup window",
+          "Source IP is internal and expected for backup traffic",
+          "Asset role is backup_server with medium criticality",
+          "Historical memory confirms same alert classified Likely Benign"
+        ],
+        "mismatched_conditions": [],
+        "memory_evidence": [
+          "SOC analyst approved the 'Likely Benign' classification for security alert ALT-001 involving encoded PowerShell activity on asset BKP-SRV-01. | When: 2026-09-28 | Involving: SOC analyst, svc-veeam | The activity was confirmed to originate from the approved Veeam backup process during a scheduled backup window.",
+          "Security alert ALT-001 regarding Encoded PowerShell activity on asset BKP-SRV-01 was classified as Likely Benign. | When: 2026-09-28T02:00:00 | Involving: svc-veeam | The activity was confirmed as expected Veeam backup operations during an approved window."
+        ],
+        "guardrail_override": false,
+        "guardrail_reason": "Historical benign conditions match and no effective environment change invalidates the exception."
+      },
+      "passed": false
+    },
+    {
+      "alert_id": "ALT-002",
+      "expected": "Likely Benign",
+      "candidate": {
+        "verdict": "Likely Benign",
+        "confidence": 0.88,
+        "reasoning": "The alert shows an encoded PowerShell command launched by Veeam.Backup.Service.exe using the svc\u2011veeam service account on a server whose role is backup_server. The account\u2019s normal activity list includes Veeam backup jobs, and the asset is approved for this account. Historical memories record a nearly identical alert (ALT\u2011001) on another backup server (BKP\u2011SRV\u201101) that was reviewed and classified as Likely Benign because it was part of the scheduled Veeam backup window. No additional suspicious indicators (e.g., external IP, abnormal arguments, lateral movement) are present. Therefore the current activity aligns with expected, approved backup operations.",
+        "matched_conditions": [
+          "Encoded PowerShell command",
+          "Parent process Veeam.Backup.Service.exe",
+          "Service account svc-veeam",
+          "Asset role backup_server",
+          "Activity aligns with normal backup schedule"
+        ],
+        "mismatched_conditions": [],
+        "memory_evidence": [
+          "SOC analyst approved Likely Benign for ALT-001 encoded PowerShell on BKP-SRV-01, confirmed as expected Veeam backup during scheduled window.",
+          "Security alert ALT-001 classified Likely Benign; activity confirmed as part of scheduled Veeam backup.",
+          "BKP-SRV-02 is a backup server that uses the svc-veeam account."
+        ],
+        "guardrail_override": false,
+        "guardrail_reason": "Historical benign conditions match and no effective environment change invalidates the exception."
+      },
+      "final": {
+        "verdict": "Likely Benign",
+        "confidence": 0.88,
+        "reasoning": "The alert shows an encoded PowerShell command launched by Veeam.Backup.Service.exe using the svc\u2011veeam service account on a server whose role is backup_server. The account\u2019s normal activity list includes Veeam backup jobs, and the asset is approved for this account. Historical memories record a nearly identical alert (ALT\u2011001) on another backup server (BKP\u2011SRV\u201101) that was reviewed and classified as Likely Benign because it was part of the scheduled Veeam backup window. No additional suspicious indicators (e.g., external IP, abnormal arguments, lateral movement) are present. Therefore the current activity aligns with expected, approved backup operations.",
+        "matched_conditions": [
+          "Encoded PowerShell command",
+          "Parent process Veeam.Backup.Service.exe",
+          "Service account svc-veeam",
+          "Asset role backup_server",
+          "Activity aligns with normal backup schedule"
+        ],
+        "mismatched_conditions": [],
+        "memory_evidence": [
+          "SOC analyst approved Likely Benign for ALT-001 encoded PowerShell on BKP-SRV-01, confirmed as expected Veeam backup during scheduled window.",
+          "Security alert ALT-001 classified Likely Benign; activity confirmed as part of scheduled Veeam backup.",
+          "BKP-SRV-02 is a backup server that uses the svc-veeam account."
+        ],
+        "guardrail_override": false,
+        "guardrail_reason": "Historical benign conditions match and no effective environment change invalidates the exception."
+      },
+      "passed": false
+    },
+    {
+      "alert_id": "ALT-003",
+      "expected": "Escalate",
+      "candidate": {
+        "verdict": "Investigate",
+        "confidence": 0.9,
+        "reasoning": "The alert shows high\u2011severity encoded PowerShell execution launched from Microsoft Word on a high\u2011criticality finance workstation during business hours. This technique (T1059.001) is atypical for the finance analyst's normal activity and the parent process (winword.exe) suggests a possible macro\u2011based attack. Historical memories of encoded PowerShell being benign relate exclusively to Veeam backup operations on a backup server (BKP-SRV-01) with a Veeam parent process and a scheduled 02:00 backup window. A world memory explicitly states that future encoded PowerShell activity must not be classified as Likely Benign based on those Veeam patterns, and the environment change supersedes the prior exception. Since none of the Veeam\u2011specific conditions are present, the current indicators remain suspicious and warrant investigation.",
+        "matched_conditions": [
+          "Encoded PowerShell command",
+          "Parent process winword.exe",
+          "High severity",
+          "Asset criticality high",
+          "Finance workstation role"
+        ],
+        "mismatched_conditions": [
+          "Parent process is not Veeam service",
+          "No scheduled backup window",
+          "No Veeam backup context"
+        ],
+        "memory_evidence": [
+          "Future encoded PowerShell activity must not be classified as Likely Benign based on historical Veeam backup patterns. | The previous exception is superseded by the environment change.",
+          "Encoded PowerShell activity at 02:00 is expected only when the Veeam parent process and scheduled backup context match. | When: 02:00"
+        ],
+        "guardrail_override": false,
+        "guardrail_reason": null
+      },
+      "final": {
+        "verdict": "Investigate",
+        "confidence": 0.9,
+        "reasoning": "The alert shows high\u2011severity encoded PowerShell execution launched from Microsoft Word on a high\u2011criticality finance workstation during business hours. This technique (T1059.001) is atypical for the finance analyst's normal activity and the parent process (winword.exe) suggests a possible macro\u2011based attack. Historical memories of encoded PowerShell being benign relate exclusively to Veeam backup operations on a backup server (BKP-SRV-01) with a Veeam parent process and a scheduled 02:00 backup window. A world memory explicitly states that future encoded PowerShell activity must not be classified as Likely Benign based on those Veeam patterns, and the environment change supersedes the prior exception. Since none of the Veeam\u2011specific conditions are present, the current indicators remain suspicious and warrant investigation.",
+        "matched_conditions": [
+          "Encoded PowerShell command",
+          "Parent process winword.exe",
+          "High severity",
+          "Asset criticality high",
+          "Finance workstation role"
+        ],
+        "mismatched_conditions": [
+          "Parent process is not Veeam service",
+          "No scheduled backup window",
+          "No Veeam backup context"
+        ],
+        "memory_evidence": [
+          "Future encoded PowerShell activity must not be classified as Likely Benign based on historical Veeam backup patterns. | The previous exception is superseded by the environment change.",
+          "Encoded PowerShell activity at 02:00 is expected only when the Veeam parent process and scheduled backup context match. | When: 02:00"
+        ],
+        "guardrail_override": false,
+        "guardrail_reason": null
+      },
+      "passed": false
+    },
+    {
+      "alert_id": "ALT-004",
+      "expected": "Escalate",
+      "candidate": {
+        "verdict": "Escalate",
+        "confidence": 0.92,
+        "reasoning": "The alert shows a critical\u2011severity encoded PowerShell command executed on a domain controller (DC\u201101) outside any approved maintenance window. The initiating account (j.mehta) is an IT administrator but its approved asset list does not include the domain controller, indicating unauthorized use. The parent process is cmd.exe, not the expected Veeam backup process, and no scheduled backup context is present. Historical memories show that similar encoded PowerShell activity on backup servers (BKP\u2011SRV\u201101) was benign because it originated from Veeam during an approved window, but a world memory explicitly states that future encoded PowerShell activity must not be classified as Likely Benign based on those patterns. Given the critical asset, critical severity, and lack of legitimate justification, the safest recommendation is to Escalate for immediate investigation and possible containment.",
+        "matched_conditions": [
+          "Encoded PowerShell command on a domain controller",
+          "Critical severity",
+          "Execution outside normal administrative maintenance window",
+          "Account j.mehta not authorized for asset DC-01",
+          "Parent process cmd.exe rather than Veeam backup process"
+        ],
+        "mismatched_conditions": [
+          "Activity matches known Veeam backup pattern",
+          "Execution during approved backup window",
+          "Asset is a backup server"
+        ],
+        "memory_evidence": [
+          "Future encoded PowerShell activity must not be classified as Likely Benign based on historical Veeam backup patterns. | The previous exception is superseded by the environment change.",
+          "SOC analyst approved the 'Likely Benign' classification for security alert ALT-001 involving encoded PowerShell activity on asset BKP-SRV-01. | When: 2026-09-28 | Involving: SOC analyst, svc-veeam | The activity was confirmed to originate from the approved Veeam backup process during a scheduled backup window."
+        ],
+        "guardrail_override": false,
+        "guardrail_reason": null
+      },
+      "final": {
+        "verdict": "Escalate",
+        "confidence": 0.92,
+        "reasoning": "The alert shows a critical\u2011severity encoded PowerShell command executed on a domain controller (DC\u201101) outside any approved maintenance window. The initiating account (j.mehta) is an IT administrator but its approved asset list does not include the domain controller, indicating unauthorized use. The parent process is cmd.exe, not the expected Veeam backup process, and no scheduled backup context is present. Historical memories show that similar encoded PowerShell activity on backup servers (BKP\u2011SRV\u201101) was benign because it originated from Veeam during an approved window, but a world memory explicitly states that future encoded PowerShell activity must not be classified as Likely Benign based on those patterns. Given the critical asset, critical severity, and lack of legitimate justification, the safest recommendation is to Escalate for immediate investigation and possible containment.",
+        "matched_conditions": [
+          "Encoded PowerShell command on a domain controller",
+          "Critical severity",
+          "Execution outside normal administrative maintenance window",
+          "Account j.mehta not authorized for asset DC-01",
+          "Parent process cmd.exe rather than Veeam backup process"
+        ],
+        "mismatched_conditions": [
+          "Activity matches known Veeam backup pattern",
+          "Execution during approved backup window",
+          "Asset is a backup server"
+        ],
+        "memory_evidence": [
+          "Future encoded PowerShell activity must not be classified as Likely Benign based on historical Veeam backup patterns. | The previous exception is superseded by the environment change.",
+          "SOC analyst approved the 'Likely Benign' classification for security alert ALT-001 involving encoded PowerShell activity on asset BKP-SRV-01. | When: 2026-09-28 | Involving: SOC analyst, svc-veeam | The activity was confirmed to originate from the approved Veeam backup process during a scheduled backup window."
+        ],
+        "guardrail_override": false,
+        "guardrail_reason": null
+      },
+      "passed": false
+    },
+    {
+      "alert_id": "ALT-005",
+      "expected": "Likely Benign",
+      "candidate": {
+        "verdict": "Investigate",
+        "confidence": 0.9,
+        "reasoning": "The port scan originates from the approved vulnerability scanner (scanner-service.exe) on asset SCAN-01, which is designated as a vulnerability_scanner with low criticality. The source IP is internal and the description explicitly states this is a scheduled, approved scan. No suspicious indicators are present, and no relevant historical memories contradict this. Therefore the alert is likely benign. Guardrail override: the current alert does not match all required conditions of the historical benign exception.",
+        "matched_conditions": [
+          "alert_type is Port Scan and matches approved scanner activity",
+          "asset role is vulnerability_scanner",
+          "source_ip is internal network",
+          "description indicates scheduled approved scan"
+        ],
+        "mismatched_conditions": [],
+        "memory_evidence": [],
+        "guardrail_override": true,
+        "guardrail_reason": "Historical benign conditions do not match."
+      },
+      "final": {
+        "verdict": "Investigate",
+        "confidence": 0.9,
+        "reasoning": "The port scan originates from the approved vulnerability scanner (scanner-service.exe) on asset SCAN-01, which is designated as a vulnerability_scanner with low criticality. The source IP is internal and the description explicitly states this is a scheduled, approved scan. No suspicious indicators are present, and no relevant historical memories contradict this. Therefore the alert is likely benign. Guardrail override: the current alert does not match all required conditions of the historical benign exception.",
+        "matched_conditions": [
+          "alert_type is Port Scan and matches approved scanner activity",
+          "asset role is vulnerability_scanner",
+          "source_ip is internal network",
+          "description indicates scheduled approved scan"
+        ],
+        "mismatched_conditions": [],
+        "memory_evidence": [],
+        "guardrail_override": true,
+        "guardrail_reason": "Historical benign conditions do not match."
+      },
+      "passed": false
+    },
+    {
+      "alert_id": "ALT-006",
+      "expected": "Escalate",
+      "candidate": {
+        "verdict": "Escalate",
+        "confidence": 0.86,
+        "reasoning": "The alert reports a high\u2011severity internal port scan originating from an unknown process on a high\u2011criticality finance workstation. The account performing the activity (contractor.k) is not authorized for this asset (approved only for WEB-01). Combined with the unusual source IP and lack of any historical benign exception for port\u2011scan activity, the evidence strongly suggests malicious reconnaissance that warrants immediate escalation to senior SOC staff.",
+        "matched_conditions": [
+          "high severity",
+          "critical asset (finance workstation)",
+          "unauthorized account for asset",
+          "unknown parent process",
+          "high\u2011volume TCP port scan"
+        ],
+        "mismatched_conditions": [],
+        "memory_evidence": [],
+        "guardrail_override": false,
+        "guardrail_reason": null
+      },
+      "final": {
+        "verdict": "Escalate",
+        "confidence": 0.86,
+        "reasoning": "The alert reports a high\u2011severity internal port scan originating from an unknown process on a high\u2011criticality finance workstation. The account performing the activity (contractor.k) is not authorized for this asset (approved only for WEB-01). Combined with the unusual source IP and lack of any historical benign exception for port\u2011scan activity, the evidence strongly suggests malicious reconnaissance that warrants immediate escalation to senior SOC staff.",
+        "matched_conditions": [
+          "high severity",
+          "critical asset (finance workstation)",
+          "unauthorized account for asset",
+          "unknown parent process",
+          "high\u2011volume TCP port scan"
+        ],
+        "mismatched_conditions": [],
+        "memory_evidence": [],
+        "guardrail_override": false,
+        "guardrail_reason": null
+      },
+      "passed": false
+    },
+    {
+      "alert_id": "ALT-007",
+      "expected": "Investigate",
+      "candidate": {
+        "verdict": "Investigate",
+        "confidence": 0.78,
+        "reasoning": "The alert reports an impossible travel login for a contractor account on a high\u2011criticality production web server. Impossible travel is a classic indicator of credential compromise. Although the account is approved for this asset, the geographic inconsistency and medium severity warrant further investigation before any remediation. No historical benign exceptions apply to this pattern, and no relevant hindsight memories modify this assessment.",
+        "matched_conditions": [],
+        "mismatched_conditions": [
+          "Impossible travel login detected",
+          "Medium severity on high\u2011criticality asset",
+          "External contractor account"
+        ],
+        "memory_evidence": [],
+        "guardrail_override": false,
+        "guardrail_reason": null
+      },
+      "final": {
+        "verdict": "Investigate",
+        "confidence": 0.78,
+        "reasoning": "The alert reports an impossible travel login for a contractor account on a high\u2011criticality production web server. Impossible travel is a classic indicator of credential compromise. Although the account is approved for this asset, the geographic inconsistency and medium severity warrant further investigation before any remediation. No historical benign exceptions apply to this pattern, and no relevant hindsight memories modify this assessment.",
+        "matched_conditions": [],
+        "mismatched_conditions": [
+          "Impossible travel login detected",
+          "Medium severity on high\u2011criticality asset",
+          "External contractor account"
+        ],
+        "memory_evidence": [],
+        "guardrail_override": false,
+        "guardrail_reason": null
+      },
+      "passed": false
+    },
+    {
+      "alert_id": "ALT-008",
+      "expected": "Investigate",
+      "candidate": {
+        "verdict": "Investigate",
+        "confidence": 0.78,
+        "reasoning": "The alert shows repeated failed login attempts targeting an IT administrator account on a high\u2011criticality production web server (WEB-01) from an external IP address. No historical benign exceptions or memory evidence apply to this pattern. Given the asset\u2019s importance and the privileged account involved, the activity warrants further investigation to determine if it is a brute\u2011force attempt or a legitimate administrative action.",
+        "matched_conditions": [
+          "medium severity",
+          "high asset criticality",
+          "admin account",
+          "external source IP"
+        ],
+        "mismatched_conditions": [
+          "no known benign pattern"
+        ],
+        "memory_evidence": [],
+        "guardrail_override": false,
+        "guardrail_reason": null
+      },
+      "final": {
+        "verdict": "Investigate",
+        "confidence": 0.78,
+        "reasoning": "The alert shows repeated failed login attempts targeting an IT administrator account on a high\u2011criticality production web server (WEB-01) from an external IP address. No historical benign exceptions or memory evidence apply to this pattern. Given the asset\u2019s importance and the privileged account involved, the activity warrants further investigation to determine if it is a brute\u2011force attempt or a legitimate administrative action.",
+        "matched_conditions": [
+          "medium severity",
+          "high asset criticality",
+          "admin account",
+          "external source IP"
+        ],
+        "mismatched_conditions": [
+          "no known benign pattern"
+        ],
+        "memory_evidence": [],
+        "guardrail_override": false,
+        "guardrail_reason": null
+      },
+      "passed": false
+    },
+    {
+      "alert_id": "ALT-009",
+      "expected": "Likely Benign",
+      "candidate": {
+        "verdict": "Likely Benign",
+        "confidence": 0.85,
+        "reasoning": "The scheduled task was created by the approved Veeam backup service account on a backup server during its normal backup window. The account is authorized for this asset, the command pattern matches expected backup operation, the source IP is internal, and no anomalous indicators (e.g., encoded PowerShell, unusual processes) are present. Historical memory shows a similar Veeam backup activity (ALT-001) was classified as Likely Benign, supporting the benign nature of this event.",
+        "matched_conditions": [
+          "Scheduled task created by approved backup service account",
+          "Asset role is backup_server",
+          "Source IP is internal network",
+          "Command pattern matches normal backup operation",
+          "Account is authorized for the asset",
+          "Severity medium but context is normal"
+        ],
+        "mismatched_conditions": [],
+        "memory_evidence": [
+          "SOC analyst classified security alert ALT-001 as Likely Benign. | When: 2026-09-28 | Involving: SOC analyst, svc-veeam | The encoded PowerShell activity was confirmed to be part of the scheduled Veeam backup process during a scheduled backup window."
+        ],
+        "guardrail_override": false,
+        "guardrail_reason": "Historical benign conditions match and no effective environment change invalidates the exception."
+      },
+      "final": {
+        "verdict": "Likely Benign",
+        "confidence": 0.85,
+        "reasoning": "The scheduled task was created by the approved Veeam backup service account on a backup server during its normal backup window. The account is authorized for this asset, the command pattern matches expected backup operation, the source IP is internal, and no anomalous indicators (e.g., encoded PowerShell, unusual processes) are present. Historical memory shows a similar Veeam backup activity (ALT-001) was classified as Likely Benign, supporting the benign nature of this event.",
+        "matched_conditions": [
+          "Scheduled task created by approved backup service account",
+          "Asset role is backup_server",
+          "Source IP is internal network",
+          "Command pattern matches normal backup operation",
+          "Account is authorized for the asset",
+          "Severity medium but context is normal"
+        ],
+        "mismatched_conditions": [],
+        "memory_evidence": [
+          "SOC analyst classified security alert ALT-001 as Likely Benign. | When: 2026-09-28 | Involving: SOC analyst, svc-veeam | The encoded PowerShell activity was confirmed to be part of the scheduled Veeam backup process during a scheduled backup window."
+        ],
+        "guardrail_override": false,
+        "guardrail_reason": "Historical benign conditions match and no effective environment change invalidates the exception."
+      },
+      "passed": false
+    },
+    {
+      "alert_id": "ALT-010",
+      "expected": "Escalate",
+      "candidate": {
+        "verdict": "Investigate",
+        "confidence": 0.86,
+        "reasoning": "The alert reports a high\u2011severity creation of a scheduled task with an encoded PowerShell command on a high\u2011criticality finance workstation. The finance analyst account\u2019s normal activity does not include scheduled\u2011task creation or encoded PowerShell usage, making this behavior anomalous. Historical memories show that similar encoded PowerShell activity was previously overridden to \"Investigate\" and that a policy now states future encoded PowerShell activity must not be classified as Likely Benign based on Veeam backup exceptions. No known benign exception applies to this asset or user. Given the combination of high severity, critical asset, and lack of legitimate justification, further investigation is warranted.",
+        "matched_conditions": [
+          "high severity",
+          "critical asset",
+          "encoded PowerShell command",
+          "scheduled task creation",
+          "parent process powershell.exe",
+          "activity outside normal user behavior"
+        ],
+        "mismatched_conditions": [
+          "no known benign Veeam backup exception for this asset",
+          "no approved scheduled\u2011task creation for this account"
+        ],
+        "memory_evidence": [
+          "Future encoded PowerShell activity must not be classified as Likely Benign based on historical Veeam backup patterns. | The previous exception is superseded by the environment change.",
+          "SOC analyst overrode the agent's 'Likely Benign' recommendation for alert ALT-001, marking it as 'Investigate' due to an additional suspicious indicator not found in historical Veeam exceptions. | When: 2026-09-28 | Involving: SOC analyst, svc-veeam | Analyst identified a new suspicious indicator not present in historical Veeam benign exceptions."
+        ],
+        "guardrail_override": false,
+        "guardrail_reason": null
+      },
+      "final": {
+        "verdict": "Investigate",
+        "confidence": 0.86,
+        "reasoning": "The alert reports a high\u2011severity creation of a scheduled task with an encoded PowerShell command on a high\u2011criticality finance workstation. The finance analyst account\u2019s normal activity does not include scheduled\u2011task creation or encoded PowerShell usage, making this behavior anomalous. Historical memories show that similar encoded PowerShell activity was previously overridden to \"Investigate\" and that a policy now states future encoded PowerShell activity must not be classified as Likely Benign based on Veeam backup exceptions. No known benign exception applies to this asset or user. Given the combination of high severity, critical asset, and lack of legitimate justification, further investigation is warranted.",
+        "matched_conditions": [
+          "high severity",
+          "critical asset",
+          "encoded PowerShell command",
+          "scheduled task creation",
+          "parent process powershell.exe",
+          "activity outside normal user behavior"
+        ],
+        "mismatched_conditions": [
+          "no known benign Veeam backup exception for this asset",
+          "no approved scheduled\u2011task creation for this account"
+        ],
+        "memory_evidence": [
+          "Future encoded PowerShell activity must not be classified as Likely Benign based on historical Veeam backup patterns. | The previous exception is superseded by the environment change.",
+          "SOC analyst overrode the agent's 'Likely Benign' recommendation for alert ALT-001, marking it as 'Investigate' due to an additional suspicious indicator not found in historical Veeam exceptions. | When: 2026-09-28 | Involving: SOC analyst, svc-veeam | Analyst identified a new suspicious indicator not present in historical Veeam benign exceptions."
+        ],
+        "guardrail_override": false,
+        "guardrail_reason": null
+      },
+      "passed": false
+    },
+    {
+      "alert_id": "ALT-011",
+      "expected": "Investigate",
+      "candidate": "ERROR",
+      "final": "ERROR",
+      "passed": false,
+      "error": "(500)\nReason: Internal Server Error\nHTTP response headers: <CIMultiDictProxy('Date': 'Mon, 28 Sep 2026 16:59:48 GMT', 'Content-Type': 'application/json', 'Content-Length': '80', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'Via': '1.1 google', 'Alt-Svc': 'h3=\":443\"; ma=2592000')>\nHTTP response body: {\"detail\":\"server login has been failing, try again later (server_login_retry)\"}\n"
+    },
+    {
+      "alert_id": "ALT-012",
+      "expected": "Escalate",
+      "candidate": "ERROR",
+      "final": "ERROR",
+      "passed": false,
+      "error": "(500)\nReason: Internal Server Error\nHTTP response headers: <CIMultiDictProxy('Date': 'Mon, 28 Sep 2026 16:59:50 GMT', 'Content-Type': 'application/json', 'Content-Length': '43', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'Via': '1.1 google', 'Alt-Svc': 'h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000')>\nHTTP response body: {\"detail\":\"[Errno 111] Connection refused\"}\n"
+    }
+  ]
+}

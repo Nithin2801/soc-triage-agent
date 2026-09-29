@@ -1,0 +1,58 @@
+[
+  {
+    "asset_id": "BKP-SRV-01",
+    "hostname": "BKP-SRV-01",
+    "asset_type": "server",
+    "role": "backup_server",
+    "criticality": "medium",
+    "environment": "production"
+  },
+  {
+    "asset_id": "BKP-SRV-02",
+    "hostname": "BKP-SRV-02",
+    "asset_type": "server",
+    "role": "backup_server",
+    "criticality": "medium",
+    "environment": "production"
+  },
+  {
+    "asset_id": "BKP-SRV-03",
+    "hostname": "BKP-SRV-03",
+    "asset_type": "server",
+    "role": "backup_server",
+    "criticality": "medium",
+    "environment": "production"
+  },
+  {
+    "asset_id": "DC-01",
+    "hostname": "DC-01",
+    "asset_type": "server",
+    "role": "domain_controller",
+    "criticality": "critical",
+    "environment": "production"
+  },
+  {
+    "asset_id": "FIN-LT-014",
+    "hostname": "FIN-LT-014",
+    "asset_type": "workstation",
+    "role": "finance_workstation",
+    "criticality": "high",
+    "environment": "production"
+  },
+  {
+    "asset_id": "WEB-01",
+    "hostname": "WEB-01",
+    "asset_type": "server",
+    "role": "web_server",
+    "criticality": "high",
+    "environment": "production"
+  },
+  {
+    "asset_id": "SCAN-01",
+    "hostname": "SCAN-01",
+    "asset_type": "server",
+    "role": "vulnerability_scanner",
+    "criticality": "low",
+    "environment": "production"
+  }
+]

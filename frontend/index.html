@@ -1,0 +1,1575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SOC Alert Triage Agent</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 18px 24px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        header p {
+            margin: 5px 0 0;
+            color: #cbd5e1;
+            font-size: 13px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: calc(100vh - 78px);
+        }
+
+        .sidebar {
+            background: white;
+            border-right: 1px solid #dbe1e8;
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            margin-top: 0;
+            font-size: 16px;
+        }
+
+        .alert-item {
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 1px solid #dbe1e8;
+            border-radius: 8px;
+            cursor: pointer;
+            background: white;
+        }
+
+        .alert-item:hover {
+            background: #f8fafc;
+        }
+
+        .alert-item.selected {
+            border: 2px solid #2563eb;
+            background: #eff6ff;
+        }
+
+        .alert-id {
+            font-weight: bold;
+        }
+
+        .alert-type {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .alert-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .severity-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .severity-critical {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .severity-high {
+        background: #ffedd5;
+        color: #9a3412;
+    }
+
+    .severity-medium {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .severity-low {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .severity-unknown {
+        background: #e2e8f0;
+        color: #475569;
+    }
+
+        .main {
+            padding: 24px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #dbe1e8;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 18px;
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .detail {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 7px;
+        }
+
+        .detail strong {
+            display: block;
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+    .selected-alert-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 18px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .selected-alert-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: #64748b;
+        margin-bottom: 4px;
+    }
+
+    .selected-alert-id {
+        font-size: 24px;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    .alert-description {
+        margin-top: 16px;
+        padding: 14px;
+        background: #f8fafc;
+        border-left: 4px solid #2563eb;
+        border-radius: 6px;
+    }
+
+    .alert-description strong {
+        display: block;
+        font-size: 12px;
+        color: #475569;
+        margin-bottom: 6px;
+    }
+
+    .alert-description p {
+        margin: 0;
+        line-height: 1.5;
+        color: #334155;
+    }
+
+        button {
+            border: none;
+            border-radius: 7px;
+            padding: 11px 18px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .feedback-actions {
+            margin-bottom: 16px;
+        }
+
+        .feedback-card {
+    border-top: 3px solid #2563eb;
+}
+
+.feedback-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.feedback-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #475569;
+    margin-bottom: 5px;
+}
+
+.feedback-header h2 {
+    margin: 0 0 5px;
+}
+
+.feedback-header .status {
+    margin-bottom: 0;
+    max-width: 700px;
+    line-height: 1.5;
+}
+
+.learning-indicator {
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #dbeafe;
+    color: #1d4ed8;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.feedback-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.feedback-actions button {
+    min-width: 120px;
+    margin-right: 0;
+}
+
+.reason-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #334155;
+}
+
+.save-feedback-button {
+    min-width: 220px;
+}
+
+#feedbackStatus {
+    margin-top: 14px;
+}
+
+#feedbackStatus .status {
+    padding: 10px 12px;
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 7px;
+    color: #166534;
+}
+
+@media (max-width: 700px) {
+
+    .feedback-header {
+        flex-direction: column;
+    }
+
+    .learning-indicator {
+        align-self: flex-start;
+    }
+
+    .feedback-actions {
+        flex-direction: column;
+    }
+
+    .feedback-actions button {
+        width: 100%;
+    }
+}
+
+    .approve-button {
+        background: #16a34a;
+        color: white;
+    }
+
+    .approve-button:hover {
+        background: #15803d;
+    }
+
+    .override-button {
+        background: #dc2626;
+        color: white;
+    }
+
+    .override-button:hover {
+        background: #b91c1c;
+    }
+
+    .save-feedback-button {
+        background: #111827;
+        color: white;
+        margin-top: 12px;
+    }
+
+    .save-feedback-button:hover {
+        background: #1f2937;
+    }
+
+    button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    textarea {
+        width: 100%;
+        margin-top: 8px;
+        padding: 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 7px;
+        font-family: inherit;
+        font-size: 14px;
+        resize: vertical;
+    }
+
+    textarea:focus {
+        outline: none;
+        border-color: #2563eb;
+    }
+        .triage-button {
+            background: #2563eb;
+            color: white;
+        }
+
+        .triage-button:hover {
+            background: #1d4ed8;
+        }
+
+        .result {
+            margin-top: 18px;
+            padding: 18px;
+            border-radius: 8px;
+            background: #f8fafc;
+            border: 1px solid #dbe1e8;
+        }
+
+        .analysis-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.analysis-label {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #475569;
+}
+
+.analysis-subtitle {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #64748b;
+}
+
+.analysis-status {
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #dcfce7;
+    color: #166534;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.verdict-card {
+    padding: 22px;
+    border-radius: 10px;
+    border: 1px solid #dbe1e8;
+    margin-bottom: 14px;
+}
+
+.verdict-main {
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.verdict-confidence {
+    margin-top: 6px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.verdict-benign {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #166534;
+}
+
+.verdict-investigate {
+    background: #fffbeb;
+    border-color: #fcd34d;
+    color: #92400e;
+}
+
+.verdict-escalate {
+    background: #fef2f2;
+    border-color: #fca5a5;
+    color: #991b1b;
+}
+
+.verdict-unknown {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #334155;
+}
+
+    .candidate-card {
+        padding: 14px 16px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        margin-bottom: 14px;
+    }
+
+    .candidate-label {
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        color: #64748b;
+        margin-bottom: 5px;
+    }
+
+    .candidate-card strong {
+        font-size: 15px;
+        color: #0f172a;
+    }
+
+    .candidate-note {
+        display: block;
+        margin-top: 5px;
+        font-size: 12px;
+        color: #64748b;
+    }
+
+    .reasoning-card {
+        padding: 16px;
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        margin-bottom: 16px;
+    }
+
+    .section-title {
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #475569;
+        margin-bottom: 9px;
+    }
+
+    .reasoning {
+        line-height: 1.65;
+        color: #334155;
+    }
+
+    .memory-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .memory-active {
+        padding: 5px 9px;
+        border-radius: 999px;
+        background: #dbeafe;
+        color: #1d4ed8;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+    }
+
+    .memory-evidence-list {
+        list-style: none;
+        padding: 0;
+        margin: 12px 0 0;
+    }
+
+    .memory-evidence-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 9px;
+        margin-bottom: 11px;
+        padding: 10px;
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 7px;
+        line-height: 1.5;
+        font-size: 13px;
+    }
+
+    .memory-dot {
+        width: 7px;
+        height: 7px;
+        min-width: 7px;
+        margin-top: 7px;
+        border-radius: 50%;
+        background: #2563eb;
+    }
+
+    .no-memory {
+        margin: 0;
+        color: #64748b;
+        font-size: 13px;
+    }
+
+        .verdict {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .confidence {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 16px;
+        }
+
+        .reasoning {
+            line-height: 1.6;
+        }
+
+        .status {
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .error {
+            color: #b91c1c;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            padding: 12px;
+            border-radius: 7px;
+        }
+
+        .memory-panel {
+    margin-top: 20px;
+    padding: 16px;
+    background: #f8fafc;
+    border: 1px solid #dbe1e8;
+    border-radius: 8px;
+}
+
+.memory-panel h3 {
+    margin-top: 0;
+    margin-bottom: 6px;
+}
+
+.memory-panel h4 {
+    margin-bottom: 8px;
+}
+
+.memory-count {
+    color: #64748b;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.memory-panel ul {
+    padding-left: 20px;
+}
+
+.memory-panel li {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+        @media (max-width: 800px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 1px solid #dbe1e8;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>SOC Alert Triage Agent</h1>
+    <p>Memory-aware security alert triage</p>
+</header>
+
+<div class="container">
+
+    <aside class="sidebar">
+
+        <h2>Alert Queue</h2>
+
+        <div id="alerts">
+            Loading alerts...
+        </div>
+
+    </aside>
+
+    <main class="main">
+
+        <div class="card">
+
+            <h2>Selected Alert</h2>
+
+            <div id="status" class="status">
+                Select an alert from the queue.
+            </div>
+
+            <div id="alertDetails"></div>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Agent Analysis</h2>
+
+            <button
+                id="triageButton"
+                class="triage-button"
+                disabled
+                onclick="runTriage()"
+            >
+                Run Triage
+            </button>
+
+            <div id="result"></div>
+
+        </div>
+
+        <div class="card feedback-card" id="feedbackSection">
+
+    <div class="feedback-header">
+
+        <div>
+            <div class="feedback-label">
+                ANALYST FEEDBACK
+            </div>
+
+            <h2>Review and teach the agent</h2>
+
+            <p class="status">
+                Confirm the recommendation or override it with
+                your analyst decision. Your feedback is retained
+                in Hindsight as future experience.
+            </p>
+        </div>
+
+        <div class="learning-indicator">
+            LEARNING LOOP
+        </div>
+
+    </div>
+
+    <div class="feedback-actions">
+
+        <button
+            id="approveButton"
+            class="approve-button"
+            disabled
+            onclick="submitFeedback('approve')"
+        >
+            ✓ Approve
+        </button>
+
+        <button
+            id="overrideButton"
+            class="override-button"
+            disabled
+            onclick="submitFeedback('override')"
+        >
+            ↻ Override
+        </button>
+
+    </div>
+
+    <label
+        for="analystReason"
+        class="reason-label"
+    >
+        Analyst reason
+    </label>
+
+    <textarea
+        id="analystReason"
+        rows="5"
+        placeholder="Explain why you approved or overrode the recommendation..."
+    ></textarea>
+
+    <button
+        id="saveFeedbackButton"
+        class="save-feedback-button"
+        disabled
+        onclick="saveFeedback()"
+    >
+        Save Feedback to Hindsight
+    </button>
+
+    <div id="feedbackStatus"></div>
+
+</div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+const API_BASE = "http://127.0.0.1:8000";
+
+let alerts = [];
+let selectedAlert = null;
+
+
+// ---------------------------------------------------------
+// LOAD ALERTS
+// ---------------------------------------------------------
+
+async function loadAlerts() {
+
+    const container = document.getElementById("alerts");
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE}/alerts`
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                `HTTP ${response.status}`
+            );
+        }
+
+        alerts = await response.json();
+
+        container.innerHTML = "";
+
+        alerts.forEach(alert => {
+
+    const item = document.createElement("div");
+
+    item.className = "alert-item";
+
+    const severity =
+        (alert.severity || "unknown").toLowerCase();
+
+    const severityLabel =
+        severity.charAt(0).toUpperCase() +
+        severity.slice(1);
+
+    item.innerHTML = `
+        <div class="alert-row">
+
+            <div>
+                <div class="alert-id">
+                    ${alert.alert_id}
+                </div>
+
+                <div class="alert-type">
+                    ${alert.alert_type}
+                </div>
+            </div>
+
+            <span class="severity-badge severity-${severity}">
+                ${severityLabel}
+            </span>
+
+        </div>
+    `;
+
+    item.onclick = () => {
+        selectAlert(alert.alert_id);
+    };
+
+    container.appendChild(item);
+
+});
+
+    } catch (error) {
+
+        container.innerHTML = `
+            <div class="error">
+                Failed to load alerts:
+                ${error.message}
+            </div>
+        `;
+
+    }
+
+}
+
+
+// ---------------------------------------------------------
+// SELECT ALERT
+// ---------------------------------------------------------
+
+function selectAlert(alertId) {
+
+    selectedAlert = alerts.find(
+        alert => alert.alert_id === alertId
+    );
+
+    if (!selectedAlert) {
+        return;
+    }
+
+    document.querySelectorAll(
+        ".alert-item"
+    ).forEach(item => {
+
+        item.classList.remove(
+            "selected"
+        );
+
+        if (
+            item.querySelector(".alert-id")
+                .textContent
+                .trim() === alertId
+        ) {
+
+            item.classList.add(
+                "selected"
+            );
+
+        }
+
+    });
+
+
+    document.getElementById(
+        "status"
+    ).textContent =
+        `Selected ${alertId}`;
+
+
+    document.getElementById(
+        "triageButton"
+    ).disabled = false;
+
+
+    document.getElementById(
+        "result"
+    ).innerHTML = "";
+
+
+    renderAlertDetails(
+        selectedAlert
+    );
+
+}
+
+
+// ---------------------------------------------------------
+// DISPLAY ALERT DETAILS
+// ---------------------------------------------------------
+
+function renderAlertDetails(alert) {
+
+    const details =
+        document.getElementById("alertDetails");
+
+    const severity =
+        (alert.severity || "unknown").toLowerCase();
+
+    const severityLabel =
+        severity.charAt(0).toUpperCase() +
+        severity.slice(1);
+
+    const assetId =
+        alert.asset_id || "Unknown";
+
+    const accountId =
+        alert.account_id ||
+        alert.account ||
+        "Unknown";
+
+    const techniqueId =
+        alert.technique_id ||
+        alert.technique ||
+        "Unknown";
+
+    const parentProcess =
+        alert.parent_process ||
+        "Unknown";
+
+    const timestamp =
+        alert.timestamp ||
+        "Unknown";
+
+    const alertType =
+        alert.alert_type ||
+        "Unknown";
+
+    const description =
+        alert.description ||
+        "No description available.";
+
+    details.innerHTML = `
+
+        <div class="selected-alert-header">
+
+            <div>
+                <div class="selected-alert-label">
+                    SECURITY ALERT
+                </div>
+
+                <div class="selected-alert-id">
+                    ${alert.alert_id}
+                </div>
+            </div>
+
+            <span class="severity-badge severity-${severity}">
+                ${severityLabel}
+            </span>
+
+        </div>
+
+        <div class="details">
+
+            <div class="detail">
+                <strong>Alert Type</strong>
+                ${alertType}
+            </div>
+
+            <div class="detail">
+                <strong>Timestamp</strong>
+                ${timestamp}
+            </div>
+
+            <div class="detail">
+                <strong>Asset</strong>
+                ${assetId}
+            </div>
+
+            <div class="detail">
+                <strong>Account</strong>
+                ${accountId}
+            </div>
+
+            <div class="detail">
+                <strong>Parent Process</strong>
+                ${parentProcess}
+            </div>
+
+            <div class="detail">
+                <strong>Technique</strong>
+                ${techniqueId}
+            </div>
+
+        </div>
+
+        <div class="alert-description">
+            <strong>Description</strong>
+            <p>${description}</p>
+        </div>
+
+    `;
+}
+
+
+// ---------------------------------------------------------
+// RUN TRIAGE
+// ---------------------------------------------------------
+
+async function runTriage() {
+
+    if (!selectedAlert) {
+        return;
+    }
+
+    const result =
+        document.getElementById(
+            "result"
+        );
+
+    const button =
+        document.getElementById(
+            "triageButton"
+        );
+
+    button.disabled = true;
+
+    button.textContent =
+        "Analyzing...";
+
+
+    result.innerHTML = `
+        <div class="status">
+            Running alert enrichment,
+            Hindsight recall and reasoning...
+        </div>
+    `;
+
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE}/alerts/${selectedAlert.alert_id}/triage`,
+            {
+                method: "POST"
+            }
+        );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                `HTTP ${response.status}`
+            );
+
+        }
+
+
+        renderResult(data);
+
+
+    } catch (error) {
+
+        result.innerHTML = `
+            <div class="error">
+                Triage failed:
+                ${error.message}
+            </div>
+        `;
+
+    } finally {
+
+        button.disabled = false;
+
+        button.textContent =
+            "Run Triage";
+
+    }
+
+}
+
+
+// ---------------------------------------------------------
+// DISPLAY RESULT
+// ---------------------------------------------------------
+
+function renderResult(data) {
+
+    window.currentTriageResult = data;
+
+    const result =
+        document.getElementById("result");
+
+    const candidate =
+        data.candidate_verdict || {};
+
+    const final =
+        data.final_verdict || {};
+
+    const candidateVerdict =
+        typeof candidate === "object"
+            ? candidate.verdict
+            : candidate;
+
+    const candidateConfidence =
+        typeof candidate === "object"
+            ? candidate.confidence
+            : null;
+
+    const candidateReasoning =
+        typeof candidate === "object"
+            ? candidate.reasoning
+            : "";
+
+    const finalVerdict =
+        typeof final === "object"
+            ? final.verdict
+            : final;
+
+    const finalConfidence =
+        typeof final === "object"
+            ? final.confidence
+            : null;
+
+    const finalReasoning =
+        typeof final === "object"
+            ? final.reasoning
+            : "";
+
+    const confidence =
+        finalConfidence ??
+        candidateConfidence;
+
+    const reasoning =
+        finalReasoning ||
+        candidateReasoning ||
+        "No reasoning returned.";
+
+    const memories =
+        Array.isArray(data.memories)
+            ? data.memories
+            : [];
+
+    const memoryEvidence =
+        typeof final === "object" &&
+        Array.isArray(final.memory_evidence)
+            ? final.memory_evidence
+            : [];
+
+    const normalizedVerdict =
+        (finalVerdict || "unknown")
+            .toLowerCase()
+            .replace(/\s+/g, "-");
+
+    let verdictClass = "verdict-unknown";
+
+    if (normalizedVerdict === "likely-benign") {
+        verdictClass = "verdict-benign";
+    } else if (normalizedVerdict === "investigate") {
+        verdictClass = "verdict-investigate";
+    } else if (normalizedVerdict === "escalate") {
+        verdictClass = "verdict-escalate";
+    }
+
+    const confidencePercent =
+        confidence !== null &&
+        confidence !== undefined
+            ? Math.round(confidence * 100)
+            : null;
+
+    result.innerHTML = `
+
+        <div class="result">
+
+            <div class="analysis-header">
+
+                <div>
+                    <div class="analysis-label">
+                        AGENT RECOMMENDATION
+                    </div>
+
+                    <div class="analysis-subtitle">
+                        Memory-aware security analysis
+                    </div>
+                </div>
+
+                <div class="analysis-status">
+                    Analysis complete
+                </div>
+
+            </div>
+
+            <div class="verdict-card ${verdictClass}">
+
+                <div class="verdict-main">
+                    ${finalVerdict || "No verdict"}
+                </div>
+
+                <div class="verdict-confidence">
+                    ${
+                        confidencePercent !== null
+                            ? `${confidencePercent}% confidence`
+                            : "Confidence unavailable"
+                    }
+                </div>
+
+            </div>
+
+            <div class="candidate-card">
+
+                <div class="candidate-label">
+                    CANDIDATE RECOMMENDATION
+                </div>
+
+                <strong>
+                    ${candidateVerdict || "Not available"}
+                </strong>
+
+                ${
+                    candidateVerdict !== finalVerdict
+                        ? `
+                            <span class="candidate-note">
+                                Final recommendation was adjusted by guardrails.
+                            </span>
+                          `
+                        : `
+                            <span class="candidate-note">
+                                Final recommendation matches the agent candidate.
+                            </span>
+                          `
+                }
+
+            </div>
+
+            <div class="reasoning-card">
+
+                <div class="section-title">
+                    Why this recommendation?
+                </div>
+
+                <div class="reasoning">
+                    ${reasoning}
+                </div>
+
+            </div>
+
+            <div class="memory-panel">
+
+                <div class="memory-header">
+
+                    <div>
+                        <h3>Hindsight Memory</h3>
+
+                        <div class="memory-count">
+                            ${memories.length} memories recalled
+                        </div>
+                    </div>
+
+                    <div class="memory-active">
+                        MEMORY ACTIVE
+                    </div>
+
+                </div>
+
+                ${
+                    memoryEvidence.length > 0
+                        ? `
+                            <div class="section-title">
+                                Evidence used in decision
+                            </div>
+
+                            <ul class="memory-evidence-list">
+
+                                ${memoryEvidence.map(memory => `
+                                    <li>
+                                        <span class="memory-dot"></span>
+                                        <span>${memory}</span>
+                                    </li>
+                                `).join("")}
+
+                            </ul>
+                          `
+                        : `
+                            <p class="no-memory">
+                                No memory evidence was returned.
+                            </p>
+                          `
+                }
+
+            </div>
+
+        </div>
+
+    `;
+
+    document.getElementById("approveButton").disabled = false;
+
+    document.getElementById("overrideButton").disabled = false;
+}
+
+// ---------------------------------------------------------
+// FEEDBACK STATE
+// ---------------------------------------------------------
+
+let selectedFeedbackAction = null;
+
+
+// ---------------------------------------------------------
+// SELECT FEEDBACK ACTION
+// ---------------------------------------------------------
+
+function submitFeedback(action) {
+
+    if (!selectedAlert) {
+        return;
+    }
+
+    selectedFeedbackAction = action;
+
+    const approveButton =
+        document.getElementById(
+            "approveButton"
+        );
+
+    const overrideButton =
+        document.getElementById(
+            "overrideButton"
+        );
+
+    approveButton.style.outline = "none";
+    overrideButton.style.outline = "none";
+
+    if (action === "approve") {
+
+        approveButton.style.outline =
+            "3px solid #16a34a";
+
+    } else {
+
+        overrideButton.style.outline =
+            "3px solid #dc2626";
+
+    }
+
+    document.getElementById(
+        "saveFeedbackButton"
+    ).disabled = false;
+
+    document.getElementById(
+        "feedbackStatus"
+    ).innerHTML = `
+        <div class="status">
+            Selected action:
+            <strong>${action}</strong>
+        </div>
+    `;
+}
+
+
+// ---------------------------------------------------------
+// SAVE FEEDBACK
+// ---------------------------------------------------------
+
+async function saveFeedback() {
+
+    if (!selectedAlert) {
+        return;
+    }
+
+    if (!selectedFeedbackAction) {
+
+        document.getElementById(
+            "feedbackStatus"
+        ).innerHTML = `
+            <div class="error">
+                Select Approve or Override first.
+            </div>
+        `;
+
+        return;
+    }
+
+    const reason =
+        document.getElementById(
+            "analystReason"
+        ).value.trim();
+
+    if (!reason) {
+
+        document.getElementById(
+            "feedbackStatus"
+        ).innerHTML = `
+            <div class="error">
+                Please enter an analyst reason.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    const saveButton =
+        document.getElementById(
+            "saveFeedbackButton"
+        );
+
+    saveButton.disabled = true;
+
+    saveButton.textContent =
+        "Saving...";
+
+
+    try {
+
+        /*
+         * The backend retrieves the authoritative
+         * candidate and final verdict from SQLite.
+         *
+         * These values are therefore only included
+         * because the current API schema requires them.
+         */
+
+        const response =
+            await fetch(
+                `${API_BASE}/feedback`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        alert_id:
+                            selectedAlert.alert_id,
+
+                        candidate_verdict:
+                            getCurrentCandidateVerdict(),
+
+                        final_verdict:
+                            getCurrentFinalVerdict(),
+
+                        action:
+                            selectedFeedbackAction,
+
+                        analyst_reason:
+                            reason
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                `HTTP ${response.status}`
+            );
+
+        }
+
+
+        document.getElementById(
+            "feedbackStatus"
+        ).innerHTML = `
+            <div class="status">
+                <strong>Feedback saved.</strong>
+                The analyst feedback was retained in Hindsight.
+            </div>
+        `;
+
+
+        saveButton.textContent =
+            "Feedback Saved";
+
+
+    } catch (error) {
+
+        document.getElementById(
+            "feedbackStatus"
+        ).innerHTML = `
+            <div class="error">
+                Failed to save feedback:
+                ${error.message}
+            </div>
+        `;
+
+        saveButton.disabled = false;
+
+        saveButton.textContent =
+            "Save Feedback to Hindsight";
+    }
+}
+
+
+// ---------------------------------------------------------
+// GET CURRENT CANDIDATE VERDICT
+// ---------------------------------------------------------
+
+function getCurrentCandidateVerdict() {
+
+    if (
+        !window.currentTriageResult
+    ) {
+        return "Investigate";
+    }
+
+    const candidate =
+        window.currentTriageResult
+            .candidate_verdict;
+
+    if (
+        candidate &&
+        typeof candidate === "object"
+    ) {
+        return candidate.verdict;
+    }
+
+    return candidate || "Investigate";
+}
+
+
+// ---------------------------------------------------------
+// GET CURRENT FINAL VERDICT
+// ---------------------------------------------------------
+
+function getCurrentFinalVerdict() {
+
+    if (
+        !window.currentTriageResult
+    ) {
+        return "Investigate";
+    }
+
+    const final =
+        window.currentTriageResult
+            .final_verdict;
+
+    if (
+        final &&
+        typeof final === "object"
+    ) {
+        return final.verdict;
+    }
+
+    return final || "Investigate";
+}
+
+// ---------------------------------------------------------
+// START APPLICATION
+// ---------------------------------------------------------
+
+loadAlerts();
+
+</script>
+
+</body>
+</html>

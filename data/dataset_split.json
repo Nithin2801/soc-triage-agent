@@ -1,0 +1,25 @@
+{
+  "version": "development-v1",
+  "description": "Initial synthetic dataset split for SOC Alert Triage Agent development.",
+  "teaching_cases": [
+    "ALT-001",
+    "ALT-005",
+    "ALT-007",
+    "ALT-008",
+    "ALT-009",
+    "ALT-011"
+  ],
+  "held_out_cases": [
+    "ALT-002",
+    "ALT-003",
+    "ALT-004",
+    "ALT-006",
+    "ALT-010",
+    "ALT-012"
+  ],
+  "notes": {
+    "teaching_cases_are_retained": true,
+    "held_out_cases_are_not_retained_before_evaluation": true,
+    "final_evaluation_dataset_requires_expansion": true
+  }
+}

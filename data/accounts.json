@@ -1,0 +1,58 @@
+[
+  {
+    "account_id": "svc-veeam",
+    "account_type": "service_account",
+    "role": "backup_service",
+    "owner": "Backup Operations",
+    "approved_assets": [
+      "BKP-SRV-01",
+      "BKP-SRV-02",
+      "BKP-SRV-03"
+    ],
+    "normal_activity": [
+      "Veeam backup jobs",
+      "Scheduled backup operations"
+    ]
+  },
+  {
+    "account_id": "j.mehta",
+    "account_type": "employee",
+    "role": "IT administrator",
+    "owner": "Infrastructure Operations",
+    "approved_assets": [
+      "BKP-SRV-01",
+      "BKP-SRV-02",
+      "BKP-SRV-03",
+      "WEB-01"
+    ],
+    "normal_activity": [
+      "System administration",
+      "Maintenance activity"
+    ]
+  },
+  {
+    "account_id": "a.rao",
+    "account_type": "employee",
+    "role": "Finance analyst",
+    "owner": "Finance",
+    "approved_assets": [
+      "FIN-LT-014"
+    ],
+    "normal_activity": [
+      "Finance application usage",
+      "Business-hours workstation activity"
+    ]
+  },
+  {
+    "account_id": "contractor.k",
+    "account_type": "contractor",
+    "role": "External contractor",
+    "owner": "External Support",
+    "approved_assets": [
+      "WEB-01"
+    ],
+    "normal_activity": [
+      "Approved web-server maintenance"
+    ]
+  }
+]
