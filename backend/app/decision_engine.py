@@ -7,7 +7,10 @@ from .guardrails import (
 )
 
 
-def make_final_decision(alert_id: str):
+def make_final_decision(
+    alert_id: str,
+    memory_enabled: bool = True,
+):
     """
     Run the complete SOC triage decision pipeline.
 
@@ -34,7 +37,10 @@ def make_final_decision(alert_id: str):
     # STEP 1 — Run Hindsight + Groq reasoning
     # ---------------------------------------------------------
 
-    analysis = analyze_alert(alert_id)
+    analysis = analyze_alert(
+    alert_id,
+    memory_enabled=memory_enabled,
+)
 
     alert = analysis["alert"]
     asset = analysis["asset"]

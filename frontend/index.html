@@ -663,7 +663,16 @@
         <div class="card">
 
             <h2>Agent Analysis</h2>
-
+            <div class="memory-toggle">
+    <label>
+        <input
+            type="checkbox"
+            id="memoryEnabled"
+            checked
+        >
+        <span>Hindsight Memory ON</span>
+    </label>
+</div>
             <button
                 id="triageButton"
                 class="triage-button"
@@ -1045,12 +1054,15 @@ async function runTriage() {
 
     try {
 
-        const response = await fetch(
-            `${API_BASE}/alerts/${selectedAlert.alert_id}/triage`,
-            {
-                method: "POST"
-            }
-        );
+        const memoryEnabled =
+    document.getElementById("memoryEnabled").checked;
+
+const response = await fetch(
+    `${API_BASE}/alerts/${selectedAlert.alert_id}/triage?memory_enabled=${memoryEnabled}`,
+    {
+        method: "POST"
+    }
+);
 
 
         const data =

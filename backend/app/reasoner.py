@@ -128,7 +128,7 @@ def _filter_temporally_valid_memories(
             memory_text
         )
 
-        
+
 
         # -----------------------------------------------------
         # Undated environment-change memories are unsafe for
@@ -478,7 +478,7 @@ Return your candidate SOC recommendation.
 """
 
 
-def analyze_alert(alert_id: str):
+def analyze_alert(alert_id: str, memory_enabled: bool = True):
 
     # =========================================================
     # STEP 1 — LOAD CURRENT ALERT
@@ -517,23 +517,45 @@ def analyze_alert(alert_id: str):
             f"Account {alert['account_id']} was not found"
         )
 
-    # =========================================================
-    # STEP 4 — BUILD HINDSIGHT QUERY
-    # =========================================================
-
-    memory_query = _build_memory_query(
-        alert,
-        asset,
-        account,
-    )
-
-    # =========================================================
-    # STEP 5 — RECALL HINDSIGHT
+        # =========================================================
+    # STEP 4 — HINDSIGHT MEMORY
     # =========================================================
 
-    recalled_memories = recall_experience(
-        memory_query
-    )
+    if memory_enabled:
+
+        # Build the Hindsight query only when memory is ON.
+        memory_query = _build_memory_query(
+            alert,
+            asset,
+            account,
+        )
+
+        # Recall previous analyst experience.
+        recalled_memories = recall_experience(
+            memory_query
+        )
+
+        # =====================================================
+        # STEP 5 — FILTER FUTURE MEMORIES
+        # =====================================================
+
+        memories = _filter_temporally_valid_memories(
+            alert,
+            recalled_memories,
+        )
+
+        memories = _select_relevant_memories(
+            alert,
+            memories,
+        )
+
+    else:
+
+        # Memory OFF = cold-start reasoning.
+        # Do not query Hindsight.
+        memory_query = None
+        recalled_memories = []
+        memories = []
 
     # =========================================================
     # STEP 6 — FILTER FUTURE MEMORIES

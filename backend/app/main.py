@@ -87,17 +87,21 @@ def get_alert(alert_id: str):
     )
 
 
+
 # =========================================================
 # TRIAGE ONE ALERT
 # =========================================================
-
 @app.post("/alerts/{alert_id}/triage")
-def triage_alert(alert_id: str):
+def triage_alert(
+    alert_id: str,
+    memory_enabled: bool = True,
+):
 
     try:
 
         return make_final_decision(
-            alert_id
+            alert_id,
+            memory_enabled=memory_enabled,
         )
 
     except ValueError as error:
@@ -113,8 +117,6 @@ def triage_alert(alert_id: str):
             status_code=500,
             detail=f"Triage failed: {error}",
         )
-
-
 # =========================================================
 # RECORD ANALYST FEEDBACK
 # =========================================================
