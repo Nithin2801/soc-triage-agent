@@ -664,15 +664,15 @@
 
             <h2>Agent Analysis</h2>
             <div class="memory-toggle">
-    <label>
-        <input
-            type="checkbox"
-            id="memoryEnabled"
-            checked
-        >
-        <span>Hindsight Memory ON</span>
-    </label>
-</div>
+            <label>
+                <input
+                    type="checkbox"
+                    id="memoryEnabled"
+                    checked
+                >
+                <span id="memoryLabel">Hindsight Memory ON</span>
+            </label>
+        </div>
             <button
                 id="triageButton"
                 class="triage-button"
@@ -1017,7 +1017,30 @@ function renderAlertDetails(alert) {
     `;
 }
 
+// ---------------------------------------------------------
+// HINDSIGHT MEMORY TOGGLE
+// ---------------------------------------------------------
 
+const memoryCheckbox =
+    document.getElementById("memoryEnabled");
+
+const memoryLabel =
+    document.getElementById("memoryLabel");
+
+function updateMemoryLabel() {
+
+    memoryLabel.textContent =
+        memoryCheckbox.checked
+            ? "Hindsight Memory ON"
+            : "Hindsight Memory OFF";
+}
+
+memoryCheckbox.addEventListener(
+    "change",
+    updateMemoryLabel
+);
+
+updateMemoryLabel();
 // ---------------------------------------------------------
 // RUN TRIAGE
 // ---------------------------------------------------------
